@@ -35,8 +35,8 @@ const StContainer = styled.div`
 
 const StBoxWrap = styled.div`
   /* border: 1px solid; */
-  width: 510px;
-  height: 555px;
+  width: 800px;
+  height: 800px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -48,15 +48,15 @@ const StBoxTop = styled.div`
   border: 2px solid gray;
   border-bottom-style: none;
   border-radius: 20px 20px 0 0;
-  width: 470px;
+  width: 625px;
   height: 42px;
 `;
 
 const StBox = styled.div`
   border: 2px solid gray;
   border-radius: 0 0 20px 20px;
-  width: 470px;
-  height: 470px;
+  width: 625px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
