@@ -88,7 +88,7 @@ const StContainer = styled.div`
 const StMain = styled.div`
   border: 2px solid #d2d2d2;
   width: 350px;
-  height: 402px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
