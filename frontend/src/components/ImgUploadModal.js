@@ -87,11 +87,6 @@ const StButton = styled.div`
   justify-content: center;
 `;
 
-//모달
-Modal.propTypes = {
-  visible: PropTypes.bool,
-};
-
 const ModalWrapper = styled.div`
   box-sizing: border-box;
   display: ${(props) => (props.visible ? "block" : "none")};
