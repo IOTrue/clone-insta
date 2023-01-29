@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useRef, formData } from "react";
 import styled from "styled-components";
 import { RiImageAddFill } from "react-icons/ri";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const ImgUploadModal = () => {
+  const inputRef = useRef();
+  const formData = new FormData();
+
+  const onImgInputBtnClick = (event) => {
+    event.prenventDefault();
+    inputRef.current.click();
+    // inputRef.current.disabled = false;
+    // inputRef.current.focus();
+  };
   return (
     <>
       <StContainer>
@@ -14,7 +23,15 @@ const ImgUploadModal = () => {
           <StBox>
             <RiImageAddFill className="iconUpload" />
             <span>사진을 올려보세요.</span>
-            <StButton>컴퓨터에서 선택</StButton>
+            <StButton onClick={onImgInputBtnClick}>컴퓨터에서 선택</StButton>
+            <input
+              disabled
+              ref={inputRef}
+              type="file"
+              accept="image/*"
+              name="file"
+              className="imgInput"
+            />
           </StBox>
         </StBoxWrap>
       </StContainer>
@@ -70,7 +87,7 @@ const StBox = styled.div`
   }
 `;
 
-const StButton = styled.div`
+const StButton = styled.button`
   border: none;
   border-radius: 10px;
   width: 120px;
@@ -87,42 +104,4 @@ const StButton = styled.div`
   justify-content: center;
 `;
 
-const ModalWrapper = styled.div`
-  box-sizing: border-box;
-  display: ${(props) => (props.visible ? "block" : "none")};
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  overflow: auto;
-  outline: 0;
-`;
-
-const ModalOverlay = styled.div`
-  box-sizing: border-box;
-  display: ${(props) => (props.visible ? "block" : "none")};
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-`;
-
-const ModalInner = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
-  background-color: #fff;
-  border-radius: 10px;
-  width: 360px;
-  max-width: 480px;
-  top: 50%;
-  transform: translateY(-50%);
-  margin: 0 auto;
-  padding: 40px 20px;
-`;
 export default ImgUploadModal;

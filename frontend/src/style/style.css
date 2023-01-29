@@ -76,3 +76,9 @@ svg:hover {
   width: 60px;
   height: 60px;
 }
+
+.imgInput {
+  /* display: none; */
+  border: 1px solid;
+  width: 200px;
+}
