@@ -1,11 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const __getPostThunk = createAsyncThunk(
-  "GET_POST",
-  async (arg, thunkAPI) => {
+export const __addPostThunk = createAsyncThunk(
+  "ADD_POST",
+  async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`/main`);
+      const { data } = await axios.post(`posts`, payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("게시글 작성", data);
       return thunkAPI.fulfillWithValue(data);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -50,15 +55,15 @@ export const uploadSlice = createSlice({
     },
   },
   extraReducers: {
-    [__getPostThunk.fulfilled]: (state, action) => {
+    [__addPostThunk.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.todo = action.payload;
     },
-    [__getPostThunk.rejected]: (state, action) => {
+    [__addPostThunk.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    [__getPostThunk.pending]: (state) => {
+    [__addPostThunk.pending]: (state) => {
       state.isLoading = true;
     },
     [__updatePostThunk.fulfilled]: (state, action) => {

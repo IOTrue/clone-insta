@@ -1,14 +1,15 @@
 import React, { useRef, formData, useState, useEffect } from "react";
 import styled from "styled-components";
 import { RiImageAddFill } from "react-icons/ri";
-import { AiOutlineCloseCircle } from "react-icons/ai";
-// import { useNavigate } from "react-router-dom";
+import { AiOutlineCloseCircle, AiOutlineReload } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { __addPostThunk } from "../redux/modules/uploadSlice";
 
-const ImgUploadModal = () => {
+const Upload = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // const [files, setFiles] = useState("");
   const token = localStorage.getItem("token");
   // console.log(token);
@@ -16,6 +17,9 @@ const ImgUploadModal = () => {
   //이미지 미리보기와 파일첨부 기능
   const [imgBase64, setImgBase64] = useState([]); // 파일 base64
   const [imgFile, setImgFile] = useState(null); //파일
+  const [content, setContent] = useState(null);
+  console.log("content", content);
+
   //미리보기
   const handleChangeFile = (event) => {
     setImgFile(event.target.files);
@@ -36,29 +40,32 @@ const ImgUploadModal = () => {
   };
 
   const onWriteHandler = async () => {
-    const fd = new FormData();
-    Object.values(imgFile).forEach((file) => fd.append("image", file));
-    // fd.append("변수명",input 값)
+    const formdata = new FormData();
+    // Object.values(imgFile).forEach((file) => fd.append("image", file));
+    formdata.append("image", imgFile);
+    formdata.append("content", content);
+
+    dispatch(__addPostThunk(formdata));
 
     //여기서 보내준다.
-    await axios
-      .post(`https://f1rstweb.shop/posts`, fd, {
-        headers: {
-          Authorization: token,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        navigate("/main");
-        console.log(response);
-        if (response.data) {
-        }
-      })
-      .catch((error) => {
-        alert("error");
+    // await axios
+    //   .post(`https://f1rstweb.shop/posts`, formdata, {
+    //     headers: {
+    //       Authorization: token,
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     navigate("/main");
+    //     console.log(response);
+    //     if (response.data) {
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     alert("error");
 
-        navigate("/main");
-      });
+    //     navigate("/main");
+    //   });
   };
 
   return (
@@ -67,8 +74,9 @@ const ImgUploadModal = () => {
         <StBoxWrap>
           <StBoxTop>
             <StStBoxTopInner>
-              {/* <div>새 게시물 올리기</div> */}
-              <AiOutlineCloseCircle className="iconUploadClose" />
+              <AiOutlineReload className="iconUploadTop" />
+              <span>새 게시물 올리기</span>
+              <AiOutlineCloseCircle className="iconUploadTop" />
             </StStBoxTopInner>
           </StBoxTop>
 
@@ -105,9 +113,17 @@ const ImgUploadModal = () => {
               </StLeftBox>
 
               <StRightBox>
-                <StRightBoxTop>아이디</StRightBoxTop>
+                <StRightBoxTop>닉네임이 들어갑니다.</StRightBoxTop>
                 <StRightBoxContent>
-                  <textarea name="body" rows="19" maxLength={2000} />
+                  <textarea
+                    name="body"
+                    rows="19"
+                    maxLength={2000}
+                    value={content}
+                    onChange={(e) => {
+                      setContent(e.target.value);
+                    }}
+                  />
                 </StRightBoxContent>
                 <StRightBoxBt>
                   <StFileBox>
@@ -160,10 +176,14 @@ const StBoxTop = styled.div`
   border-radius: 20px 20px 0 0;
   width: 630px;
   height: 42px;
+  font-size: 18px;
+  font-weight: 500;
 `;
 
 const StStBoxTopInner = styled.div`
-  /* display: flex; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const StBox = styled.div`
@@ -261,4 +281,4 @@ const StLabel = styled.label`
 const StInput = styled.input`
   display: none;
 `;
-export default ImgUploadModal;
+export default Upload;

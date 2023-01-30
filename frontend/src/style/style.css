@@ -64,9 +64,8 @@ svg:hover {
 }
 
 /* 업로드 css */
-.iconUploadClose {
+.iconUploadTop {
   position: relative;
-  float: right;
   margin: 10px;
   width: 24px;
   height: 24px;
@@ -84,5 +83,4 @@ svg:hover {
   width: 200px;
 }
 
-.uploadInput {
-}
+/* 모달창 */
