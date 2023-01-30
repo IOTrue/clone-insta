@@ -5,8 +5,10 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 // import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ImgUploadModal = () => {
+  const navigate = useNavigate();
   // const [files, setFiles] = useState("");
   const token = localStorage.getItem("token");
   // console.log(token);
@@ -36,20 +38,27 @@ const ImgUploadModal = () => {
   const onWriteHandler = async () => {
     const fd = new FormData();
     Object.values(imgFile).forEach((file) => fd.append("image", file));
+    // fd.append("변수명",input 값)
 
-    await axios.post(`http://f1rstweb.shop/posts`, fd, {
-      headers: {
-        Authorization: token,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // .then((response) => {
-    //   console.log(response);
-    //   if (response.data) {
-    //   }
-    // })
-    // .catch((error) => {});
-    // navigate("/List");
+    //여기서 보내준다.
+    await axios
+      .post(`https://f1rstweb.shop/posts`, fd, {
+        headers: {
+          Authorization: token,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        navigate("/main");
+        console.log(response);
+        if (response.data) {
+        }
+      })
+      .catch((error) => {
+        alert("error");
+
+        navigate("/main");
+      });
   };
 
   return (
@@ -57,49 +66,65 @@ const ImgUploadModal = () => {
       <StContainer>
         <StBoxWrap>
           <StBoxTop>
-            <AiOutlineCloseCircle className="iconUploadClose" />
+            <StStBoxTopInner>
+              {/* <div>새 게시물 올리기</div> */}
+              <AiOutlineCloseCircle className="iconUploadClose" />
+            </StStBoxTopInner>
           </StBoxTop>
+
           <StBox>
-            <form
+            <StForm
               onSubmit={(e) => {
                 e.preventDefault();
                 onWriteHandler();
               }}
             >
-              <RiImageAddFill className="iconUpload" />
-              <div>
-                <span>업로드된 이미지</span>
+              <StLeftBox>
+                {/* <RiImageAddFill className="iconUpload" /> */}
                 <div>
-                  {imgBase64.map((item) => {
-                    return (
-                      <img
-                        className="
+                  {/* <span>사진을 올려보세요</span> */}
+                  <StInnerBox>
+                    {imgBase64.map((item) => {
+                      return (
+                        <img
+                          className="
                       m-auto
                       "
-                        key={Date.now()}
-                        src={item}
-                        alt="First slide"
-                        style={{ width: "40%", height: "40%" }}
-                      />
-                    );
-                  })}
+                          key={Date.now()}
+                          src={item}
+                          alt="First slide"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                          }}
+                        />
+                      );
+                    })}
+                  </StInnerBox>
                 </div>
-              </div>
-              <span>저장하기</span>
+              </StLeftBox>
 
-              <StFileBox>
-                <StInput
-                  className="uploadInput"
-                  type="file"
-                  id="image"
-                  accept="image/jpg,image/png,image/jpeg,image/gif"
-                  onChange={handleChangeFile}
-                  multiple="multiple"
-                />
-                <StLabel htmlFor="image">파일찾기라벨</StLabel>
-              </StFileBox>
-              <StButton>저장하기=올리는 버튼</StButton>
-            </form>
+              <StRightBox>
+                <StRightBoxTop>아이디</StRightBoxTop>
+                <StRightBoxContent>
+                  <textarea name="body" rows="19" maxLength={2000} />
+                </StRightBoxContent>
+                <StRightBoxBt>
+                  <StFileBox>
+                    <StInput
+                      className="uploadInput"
+                      type="file"
+                      id="image"
+                      accept="image/jpg,image/png,image/jpeg,image/gif"
+                      onChange={handleChangeFile}
+                      multiple="multiple"
+                    />
+                    <StLabel htmlFor="image">사진선택</StLabel>
+                    <StButton>공유하기</StButton>
+                  </StFileBox>
+                </StRightBoxBt>
+              </StRightBox>
+            </StForm>
           </StBox>
         </StBoxWrap>
       </StContainer>
@@ -133,21 +158,19 @@ const StBoxTop = styled.div`
   border: 2px solid gray;
   border-bottom-style: none;
   border-radius: 20px 20px 0 0;
-  width: 625px;
+  width: 630px;
   height: 42px;
+`;
+
+const StStBoxTopInner = styled.div`
+  /* display: flex; */
 `;
 
 const StBox = styled.div`
   border: 2px solid gray;
   border-radius: 0 0 20px 20px;
-  width: 625px;
+  width: 630px;
   height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-
   & span {
     font-size: 20px;
     margin-top: 12px;
@@ -155,44 +178,87 @@ const StBox = styled.div`
   }
 `;
 
+const StForm = styled.form`
+  display: flex;
+  width: 630px;
+  height: 500px;
+`;
+
+const StLeftBox = styled.div`
+  border: 1px solid gray;
+  border-radius: 0 0 0 20px;
+  width: 400px;
+  height: 500px;
+  position: relative;
+`;
+
+const StInnerBox = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  width: 390px;
+  height: 490px;
+  position: absolute;
+`;
+
+const StRightBox = styled.div`
+  /* border: 1px solid blue; */
+  width: 230px;
+`;
+
+const StRightBoxTop = styled.div`
+  /* border: 1px solid blue; */
+  height: 40px;
+`;
+
+const StRightBoxContent = styled.div`
+  /* border: 1px solid blue; */
+  height: 300px;
+`;
+
+const StRightBoxBt = styled.div`
+  /* border: 1px solid blue; */
+`;
+
 const StButton = styled.button`
   border: none;
   border-radius: 10px;
-  width: 120px;
+  width: 100px;
   height: 32px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
   background-color: #298dff;
   color: white;
-  margin: 10px;
-  padding: 5px;
+  margin: 5px;
   cursor: pointer;
 `;
 
 const StFileBox = styled.div`
-  border: 2px solid blue;
-  width: 300px;
+  width: 230px;
   height: 100px;
+  margin-top: 20px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StLabel = styled.label`
   border: none;
   border-radius: 10px;
-  width: 120px;
+  width: 100px;
   height: 32px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
+  text-align: center;
   background-color: #298dff;
   color: white;
-  margin: 10px;
-  padding: 5px;
   cursor: pointer;
+  line-height: 33px;
 `;
 
 const StInput = styled.input`
-  border: 1px solid green;
   display: none;
 `;
 export default ImgUploadModal;
