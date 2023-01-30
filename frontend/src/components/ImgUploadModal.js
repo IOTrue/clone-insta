@@ -4,7 +4,6 @@ import { RiImageAddFill } from "react-icons/ri";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 // import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { __postFormData } from "../redux/modules/imgUploadSlice";
 import axios from "axios";
 
 const ImgUploadModal = () => {
@@ -86,16 +85,20 @@ const ImgUploadModal = () => {
                   })}
                 </div>
               </div>
-              <span>사진을 올려보세요.</span>
+              <span>저장하기</span>
 
-              <input
-                type="file"
-                accept="image/jpg,image/png,image/jpeg,image/gif"
-                onChange={handleChangeFile}
-                multiple="multiple"
-              />
-              <label htmlFor="imgae">파일선택하기</label>
-              <StButton>저장하기</StButton>
+              <StFileBox>
+                <StInput
+                  className="uploadInput"
+                  type="file"
+                  id="image"
+                  accept="image/jpg,image/png,image/jpeg,image/gif"
+                  onChange={handleChangeFile}
+                  multiple="multiple"
+                />
+                <StLabel htmlFor="image">파일찾기라벨</StLabel>
+              </StFileBox>
+              <StButton>저장하기=올리는 버튼</StButton>
             </form>
           </StBox>
         </StBoxWrap>
@@ -164,9 +167,32 @@ const StButton = styled.button`
   margin: 10px;
   padding: 5px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
+const StFileBox = styled.div`
+  border: 2px solid blue;
+  width: 300px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StLabel = styled.label`
+  border: none;
+  border-radius: 10px;
+  width: 120px;
+  height: 32px;
+  font-size: 17px;
+  font-weight: 500;
+  background-color: #298dff;
+  color: white;
+  margin: 10px;
+  padding: 5px;
+  cursor: pointer;
+`;
+
+const StInput = styled.input`
+  border: 1px solid green;
+  display: none;
+`;
 export default ImgUploadModal;

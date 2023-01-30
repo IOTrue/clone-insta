@@ -63,6 +63,7 @@ svg:hover {
   color: var(--color-defaultOrange);
 }
 
+/* 업로드 css */
 .iconUploadClose {
   position: relative;
   float: right;
@@ -81,4 +82,7 @@ svg:hover {
   /* display: none; */
   border: 1px solid;
   width: 200px;
+}
+
+.uploadInput {
 }
