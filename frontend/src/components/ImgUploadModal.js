@@ -1,18 +1,58 @@
-import React, { useRef, formData } from "react";
+import React, { useRef, formData, useState, useEffect } from "react";
 import styled from "styled-components";
 import { RiImageAddFill } from "react-icons/ri";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+// import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { __postFormData } from "../redux/modules/imgUploadSlice";
+import axios from "axios";
 
 const ImgUploadModal = () => {
-  const inputRef = useRef();
-  const formData = new FormData();
+  // const [files, setFiles] = useState("");
+  const authorization = localStorage.getItem("authorization");
+  // console.log(token);
 
-  const onImgInputBtnClick = (event) => {
-    event.prenventDefault();
-    inputRef.current.click();
-    // inputRef.current.disabled = false;
-    // inputRef.current.focus();
+  //이미지 미리보기와 파일첨부 기능
+  const [imgBase64, setImgBase64] = useState([]); // 파일 base64
+  const [imgFile, setImgFile] = useState(null); //파일
+  //미리보기
+  const handleChangeFile = (event) => {
+    setImgFile(event.target.files);
+    setImgBase64([]);
+    for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[i]) {
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[i]);
+        reader.onloadend = () => {
+          const base64 = reader.result;
+          if (base64) {
+            var base64Sub = base64.toString();
+            setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
+          }
+        };
+      }
+    }
   };
+
+  const onWriteHandler = async () => {
+    const fd = new FormData();
+    Object.values(imgFile).forEach((file) => fd.append("image", file));
+
+    await axios.post(`http://f1rstweb.shop/posts`, fd, {
+      headers: {
+        Authorization: authorization,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    // .then((response) => {
+    //   console.log(response);
+    //   if (response.data) {
+    //   }
+    // })
+    // .catch((error) => {});
+    // navigate("/List");
+  };
+
   return (
     <>
       <StContainer>
@@ -21,17 +61,42 @@ const ImgUploadModal = () => {
             <AiOutlineCloseCircle className="iconUploadClose" />
           </StBoxTop>
           <StBox>
-            <RiImageAddFill className="iconUpload" />
-            <span>사진을 올려보세요.</span>
-            <StButton onClick={onImgInputBtnClick}>컴퓨터에서 선택</StButton>
-            <input
-              disabled
-              ref={inputRef}
-              type="file"
-              accept="image/*"
-              name="file"
-              className="imgInput"
-            />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onWriteHandler();
+              }}
+            >
+              <RiImageAddFill className="iconUpload" />
+              <div>
+                <span>업로드된 이미지</span>
+                <div>
+                  {imgBase64.map((item) => {
+                    return (
+                      <img
+                        className="
+                      m-auto
+                      "
+                        key={Date.now()}
+                        src={item}
+                        alt="First slide"
+                        style={{ width: "40%", height: "40%" }}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+              <span>사진을 올려보세요.</span>
+
+              <input
+                type="file"
+                accept="image/jpg,image/png,image/jpeg,image/gif"
+                onChange={handleChangeFile}
+                multiple="multiple"
+              />
+              <label htmlFor="imgae">파일선택하기</label>
+              <StButton>저장하기</StButton>
+            </form>
           </StBox>
         </StBoxWrap>
       </StContainer>
