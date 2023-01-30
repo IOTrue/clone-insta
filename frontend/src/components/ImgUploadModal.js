@@ -9,7 +9,7 @@ import axios from "axios";
 
 const ImgUploadModal = () => {
   // const [files, setFiles] = useState("");
-  const authorization = localStorage.getItem("authorization");
+  const token = localStorage.getItem("token");
   // console.log(token);
 
   //이미지 미리보기와 파일첨부 기능
@@ -40,7 +40,7 @@ const ImgUploadModal = () => {
 
     await axios.post(`http://f1rstweb.shop/posts`, fd, {
       headers: {
-        Authorization: authorization,
+        Authorization: token,
         "Content-Type": "multipart/form-data",
       },
     });
