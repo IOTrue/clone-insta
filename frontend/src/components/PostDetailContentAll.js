@@ -70,7 +70,9 @@ const StPostDetailUserCommentBox=styled.div`
   margin-left: 10px;
   padding-right: 10px;
 `
-const StPostDetailThumb=styled.img`
+const StPostDetailThumb=styled.img.attrs(props=>({
+  src:`${props.src || "images/logo.png"}`,
+}))`
   width: 30px;
   height:30px;
   border-radius: 30px;
