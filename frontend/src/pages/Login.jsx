@@ -55,7 +55,7 @@ const Login = () => {
   
   const onClickSocialLoginGoogle = () => { //구글 로그인
     const clientId = "580574907066-dstg0rkuoic5m3dicbaami48u7138084.apps.googleusercontent.com"
-    const redirectUrl_google = "http://localhost:3000/oauthGoogle"
+    const redirectUrl_google = "https://clonecodingfinal.vercel.app/oauthGoogle"
     const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUrl_google}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`
     window.location.href = GOOGLE_AUTH_URL;
   };
@@ -64,7 +64,7 @@ const Login = () => {
   //const REDIRECT_URI = 'https://f1rstweb.shop/auth/kakao';
   //const KAKAO_AUTH_URL = "http://f1rstweb.shop/auth/kakao"
     const restApiKey = '1b6507f790effacecbec0df34314f133'
-    const redirectUrl = 'http://localhost:3000/oauth'
+    const redirectUrl = 'https://clonecodingfinal.vercel.app/oauth'
 
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUrl}&response_type=code`;
     window.location.href = KAKAO_AUTH_URL;
