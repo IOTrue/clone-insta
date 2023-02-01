@@ -28,7 +28,7 @@ export const __userOauthGoogle = createAsyncThunk(
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.setItem("nickname", nickname);
         }else{
-          alert('인증 오류! 다시 시도해주세요!')
+          //alert('인증 오류! 다시 시도해주세요!')
           return window.location.assign("/");
         }
         //유저 토큰 + 닉네임 가져오기
@@ -36,10 +36,10 @@ export const __userOauthGoogle = createAsyncThunk(
         const refreshTokenGet = localStorage.getItem("refreshToken");
         const nicknameGet = localStorage.getItem("nickname");
         if(accessTokenGet && refreshTokenGet && nicknameGet){
-          alert('소셜로그인 인증 완료!')
+          //alert('소셜로그인 인증 완료!')
           window.location.assign("/main");
         }else{
-          alert('연결 오류! 다시 시도해주세요!')
+          //alert('연결 오류! 다시 시도해주세요!')
           return window.location.assign("/");
         }
         return res
@@ -77,7 +77,7 @@ export const __userOauthKakao = createAsyncThunk(
            localStorage.setItem("nickname", nickname);
          }else{
            //console.log('🔒 카카오 로그인 res 2 : ', res)
-           alert('인증 오류! 다시 시도해주세요!')
+           //alert('인증 오류! 다시 시도해주세요!')
             return window.location.assign("/");
          }
          //유저 토큰 + 닉네임 가져오기
@@ -85,10 +85,10 @@ export const __userOauthKakao = createAsyncThunk(
          const refreshTokenGet = localStorage.getItem("refreshToken");
          const nicknameGet = localStorage.getItem("nickname");
          if(accessTokenGet && refreshTokenGet && nicknameGet){
-           alert('소셜로그인 인증 완료!')
+           //alert('소셜로그인 인증 완료!')
            window.location.assign("/main");
          }else{
-           alert('연결 오류! 다시 시도해주세요!')
+           //alert('연결 오류! 다시 시도해주세요!')
            return window.location.assign("/");
          }
          return res
