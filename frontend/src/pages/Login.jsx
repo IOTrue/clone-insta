@@ -216,7 +216,7 @@ const StSocialButtonWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 6px;
 `;
 
 const StSocialButton = styled.button`
